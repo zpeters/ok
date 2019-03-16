@@ -1,12 +1,11 @@
 //! TODO
-//! - create a directory struct
-//! - hardcode repos - fix list
-//! - implement list - ui
-//! - implement go - ui
-//! - implement go * -ui
 //! - implement go - lib
 //! - implement go * - lib
+//! - implement go - ui
+//! - implement go * -ui
 //! - refactor list_changed
+//! - add more tests
+//! - hardcode repos - fix list
 //! - rust doc - see foo examples
 
 extern crate shellexpand;
