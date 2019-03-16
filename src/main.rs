@@ -1,7 +1,10 @@
 extern crate clap;
+extern crate colored;
+
 extern crate ok;
 
 use clap::{App, AppSettings, Arg, SubCommand};
+use colored::*;
 
 pub fn main() {
     let repos = ["~/Projects/", "~/"];
@@ -22,8 +25,25 @@ pub fn main() {
         .get_matches();
 
     if matches.is_present("list") {
-        println!("Called list");
-        println!("Dirs: {:#?}", ok::list_changed(&repos))
+        println!("[Repos with changes]");
+        let changed = ok::list_changed(&repos);
+        match changed {
+            None => println!("{}", "No changed repos".yellow()),
+            Some(dirs) => {
+                for d in dirs {
+                    println!(
+                        "{}",
+                        d.path
+                            .into_os_string()
+                            .into_string()
+                            .unwrap()
+                            .blue()
+                            .underline()
+                    );
+                    println!("{}", d.results.blue().dimmed());
+                }
+            }
+        }
     }
 
     if let Some(go_matches) = matches.subcommand_matches("go") {
