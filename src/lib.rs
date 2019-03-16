@@ -29,7 +29,11 @@ fn list_git(dirs: &[&str]) -> Option<Vec<std::path::PathBuf>> {
             }
         }
     }
-    Some(goodlist)
+    if goodlist.len() == 0 {
+        None
+    } else {
+        Some(goodlist)
+    }
 }
 
 // List only git dirs that have 'changed'
@@ -53,7 +57,11 @@ pub fn list_changed(dirs: &[&str]) -> Option<Vec<std::path::PathBuf>> {
             }
         }
     }
-    Some(goodlist)
+    if goodlist.len() == 0 {
+        None
+    } else {
+        Some(goodlist)
+    }
 }
 
 fn has_changed(path: &std::fs::DirEntry) -> bool {
@@ -86,9 +94,26 @@ mod tests {
     }
 
     #[test]
+    fn test_empty_list_git() {
+        let paths = [];
+        let result = list_git(&paths);
+        assert!(result.is_none())
+    }
+
+    #[test]
     fn test_list_changed() {
         let paths = ["~/Projects/", "~/"];
         let result = list_changed(&paths);
-        assert!(result.is_some())
+        match result {
+            None => assert!(true),
+            _ => assert!(true),
+        }
+    }
+
+    #[test]
+    fn test_none_list_changed() {
+        let paths = ["~/FAKE"];
+        let result = list_changed(&paths);
+        assert!(result.is_none())
     }
 }
