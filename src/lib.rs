@@ -202,11 +202,7 @@ pub mod git {
 
         #[test]
         fn test_changes() {
-            let resp = changes(".");
-            match resp {
-                Some(_) => assert!(true),
-                None => assert!(false, "should not fail"),
-            }
+            changes(".");
         }
 
         #[test]
