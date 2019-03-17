@@ -3,6 +3,8 @@ extern crate colored;
 
 extern crate ok;
 
+use ok::command;
+
 use clap::{App, AppSettings, Arg, SubCommand};
 use colored::*;
 
@@ -26,7 +28,7 @@ pub fn main() {
 
     if matches.is_present("list") {
         println!("[Repos with changes]");
-        let changed = ok::list_changed(&repos);
+        let changed = command::list_changed(&repos);
         match changed {
             None => println!("{}", "No changed repos".yellow()),
             Some(dirs) => {
