@@ -4,13 +4,13 @@ extern crate colored;
 extern crate ok;
 
 use ok::command;
+use ok::command::GitRepo;
 
 use clap::{App, AppSettings, Arg, SubCommand};
 use colored::*;
 
 pub fn main() {
     let repos = ["~/Projects/", "~/"];
-    println!("My Repos: {:? }", repos);
 
     let matches = App::new("Ok")
         .version("0.0.1")
@@ -50,9 +50,40 @@ pub fn main() {
 
     if let Some(go_matches) = matches.subcommand_matches("go") {
         if let Some(r) = go_matches.value_of("repo") {
-            println!("'go' called with repo {}", r)
+            let changed = command::list_changed(&repos).unwrap();
+            let dirs: Vec<GitRepo> = changed
+                .into_iter()
+                .filter(|c| c.path.to_string_lossy().contains(r))
+                .collect();
+            for d in dirs {
+                println!(
+                    "I would commit these {}",
+                    d.path
+                        .into_os_string()
+                        .into_string()
+                        .unwrap()
+                        .green()
+                        .underline()
+                );
+            }
         } else {
-            println!("Go called alone")
+            let changed = command::list_changed(&repos);
+            match changed {
+                None => println!("{}", "No changed repos".yellow()),
+                Some(dirs) => {
+                    for d in dirs {
+                        println!(
+                            "I would commit these {}",
+                            d.path
+                                .into_os_string()
+                                .into_string()
+                                .unwrap()
+                                .green()
+                                .underline()
+                        );
+                    }
+                }
+            }
         };
     }
 }

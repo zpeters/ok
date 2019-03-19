@@ -1,28 +1,28 @@
 //! TODO
-//! - implemetn git add
-//! - implemetn git commit
 //! - implement go - lib
 //! - implement go * - lib
-//! - implement go - ui
-//! - implement go * -ui
-//! - switch unwrap to expect
 //! - refactor list_changed
+//! - refactor main ui
 //! - add more tests
 //! - test coverage
 //! - hardcode repos - fix list
-//! - rust doc - see foo examples
 
+/// Higher level commands used by the UI
 pub mod command {
     extern crate shellexpand;
 
     use crate::git::{changes, is_git};
 
+    /// A `GitRepo` stuct to return back to `list`
+    ///
+    /// this consists of the canonical path and the results
+    /// returned from `git status --short`
     #[derive(Debug)]
     pub struct GitRepo {
         pub path: std::path::PathBuf,
         pub results: String,
     }
-    // List only git dirs that have 'changed'
+    /// List only git dirs that have 'changed'
     pub fn list_changed(dirs: &[&str]) -> Option<Vec<GitRepo>> {
         use std::path::Path;
 
@@ -46,8 +46,6 @@ pub mod command {
                         }
                     }
                 }
-            } else {
-                return None;
             };
         }
         if goodlist.len() == 0 {
@@ -79,7 +77,10 @@ pub mod command {
     }
 }
 
+/// Lower level git commands
 pub mod git {
+
+    /// Commit everything in `filpath` git repo
     pub fn commit(filepath: &str) -> bool {
         use std::path::Path;
         use std::process::Command;
@@ -97,6 +98,7 @@ pub mod git {
         output.success()
     }
 
+    /// Add everything in `filpath` git repo
     pub fn add(filepath: &str) -> bool {
         use std::path::Path;
         use std::process::Command;
@@ -113,6 +115,7 @@ pub mod git {
         output.success()
     }
 
+    /// Push from `filepath` git repo
     pub fn push(filepath: &str) -> bool {
         use std::path::Path;
         use std::process::Command;
@@ -128,6 +131,7 @@ pub mod git {
         output.success()
     }
 
+    /// Pull from `filepath` git repo
     pub fn pull(filepath: &str) -> bool {
         use std::path::Path;
         use std::process::Command;
@@ -143,6 +147,7 @@ pub mod git {
         output.success()
     }
 
+    /// Checks `git status` of the `filepath` repo and returns `true` if there is any output
     pub fn changes(filepath: &str) -> Option<String> {
         use std::path::Path;
         use std::process::Command;
@@ -160,6 +165,7 @@ pub mod git {
         }
     }
 
+    /// Checks if `filepath` is a git dir or not (by checking for a `.git` subfolder)
     pub fn is_git(filepath: &str) -> bool {
         use std::path::Path;
         let p = Path::new(filepath);
