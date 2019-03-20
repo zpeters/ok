@@ -8,8 +8,13 @@ use ok::command::GitRepo;
 
 use clap::{App, AppSettings, Arg, SubCommand};
 use colored::*;
+use ansi_term::enable_ansi_support;
 
 pub fn main() {
+    if cfg!(windows) && !enable_ansi_support().is_ok() {
+        colored::control::set_override(false);
+    }
+
     let repos = ["~/Projects/", "~/"];
 
     let matches = App::new("Ok")
