@@ -40,9 +40,9 @@ pub mod command {
 
     fn check_status(msgtype: &str, status: bool) {
         if status {
-            println!("\t{}: {}", msgtype.blue(), "Success".green())
+            println!("\t{}: {}", msgtype.bright_cyan(), "Success".green())
         } else {
-            println!("\t{}: {}", msgtype.blue(), "Failure".red());
+            println!("\t{}: {}", msgtype.bright_cyan(), "Failure".red());
             panic!(format!("Can't continue {} command failed", msgtype))
         }
     }

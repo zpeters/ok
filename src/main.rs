@@ -44,10 +44,10 @@ pub fn main() {
                             .into_os_string()
                             .into_string()
                             .unwrap()
-                            .blue()
+                            .bright_cyan()
                             .underline()
                     );
-                    println!("{}", d.results.blue().dimmed());
+                    println!("{}", d.results.cyan().dimmed());
                 }
             }
         }
@@ -62,7 +62,7 @@ pub fn main() {
                 .collect();
             for d in dirs {
                 let pathstring = d.path.into_os_string().into_string().unwrap();
-                println!("Processing {}", pathstring.blue().underline());
+                println!("Processing {}", pathstring.bright_cyan().underline());
                 command::go(&pathstring)
             }
         } else {
@@ -72,7 +72,7 @@ pub fn main() {
                 Some(dirs) => {
                     for d in dirs {
                         let pathstring = d.path.into_os_string().into_string().unwrap();
-                        println!("Processing {}", pathstring.blue().underline());
+                        println!("Processing {}", pathstring.bright_cyan().underline());
                         command::go(&pathstring)
                     }
                 }
