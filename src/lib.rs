@@ -108,7 +108,7 @@ pub mod git {
     /// Commit everything in `filpath` git repo
     pub fn commit(filepath: &str) -> bool {
         use std::path::Path;
-        use std::process::Command;
+        use std::process::{Command, Stdio};
 
         let mut git = Command::new("git");
         let p = Path::new(filepath);
@@ -118,6 +118,7 @@ pub mod git {
             .arg("commit")
             .arg("-am")
             .arg("'autocommit by ok'")
+            .stdout(Stdio::null())
             .status()
             .expect("commit should succeed");
         output.success()
