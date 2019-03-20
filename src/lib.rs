@@ -1,6 +1,5 @@
 //! TODO
-//! - implement go - lib
-//! - implement go * - lib
+//! - add verbose switch to turn on and off output
 //! - refactor list_changed
 //! - refactor main ui
 //! - add more tests
@@ -9,9 +8,11 @@
 
 /// Higher level commands used by the UI
 pub mod command {
+    extern crate colored;
     extern crate shellexpand;
 
-    use crate::git::{changes, is_git};
+    use crate::git::{add, changes, commit, is_git, pull, push};
+    use colored::*;
 
     /// A `GitRepo` stuct to return back to `list`
     ///
@@ -22,6 +23,30 @@ pub mod command {
         pub path: std::path::PathBuf,
         pub results: String,
     }
+
+    /// "Go" on a git repo
+    ///
+    /// git pull, add all, commit and push
+    pub fn go(path: &str) {
+        let pull_resp = pull(path);
+        check_status("Pull", pull_resp);
+        let add_resp = add(path);
+        check_status("Add", add_resp);
+        let commit_resp = commit(path);
+        check_status("Commit", commit_resp);
+        let push_resp = push(path);
+        check_status("Push", push_resp);
+    }
+
+    fn check_status(msgtype: &str, status: bool) {
+        if status {
+            println!("\t{}: {}", msgtype.blue(), "Success".green())
+        } else {
+            println!("\t{}: {}", msgtype.blue(), "Failure".red());
+            panic!(format!("Can't continue {} command failed", msgtype))
+        }
+    }
+
     /// List only git dirs that have 'changed'
     pub fn list_changed(dirs: &[&str]) -> Option<Vec<GitRepo>> {
         use std::path::Path;
