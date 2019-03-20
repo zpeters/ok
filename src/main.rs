@@ -66,15 +66,9 @@ pub fn main() {
                 None => println!("{}", "No changed repos".yellow()),
                 Some(dirs) => {
                     for d in dirs {
-                        println!(
-                            "I would commit these {}",
-                            d.path
-                                .into_os_string()
-                                .into_string()
-                                .unwrap()
-                                .green()
-                                .underline()
-                        );
+                        let pathstring = d.path.into_os_string().into_string().unwrap();
+                        println!("Processing {}", pathstring.blue().underline());
+                        command::go(&pathstring)
                     }
                 }
             }
