@@ -3,6 +3,7 @@
 //! - refactor list_changed
 //! - refactor main ui
 //! - add more tests
+//! - better doc
 //! - test coverage
 //! - hardcode repos - fix list
 
