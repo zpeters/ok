@@ -28,14 +28,14 @@ pub mod command {
     /// "Go" on a git repo
     ///
     /// git pull, add all, commit and push
-    pub fn go(path: &str) {
-        let pull_resp = pull(path);
+    pub fn go(path: &str, verbose: bool) {
+        let pull_resp = pull(path, verbose);
         check_status("Pull", pull_resp);
-        let add_resp = add(path);
+        let add_resp = add(path, verbose);
         check_status("Add", add_resp);
-        let commit_resp = commit(path);
+        let commit_resp = commit(path, verbose);
         check_status("Commit", commit_resp);
-        let push_resp = push(path);
+        let push_resp = push(path, verbose);
         check_status("Push", push_resp);
     }
 
@@ -107,31 +107,44 @@ pub mod command {
 pub mod git {
 
     /// Commit everything in `filpath` git repo
-    pub fn commit(filepath: &str) -> bool {
+    pub fn commit(filepath: &str, verbose: bool) -> bool {
         use std::path::Path;
         use std::process::{Command, Stdio};
 
         let mut git = Command::new("git");
         let p = Path::new(filepath);
+
+        if verbose {
+            git.stdout(Stdio::inherit()).stderr(Stdio::inherit());
+        } else {
+            git.stdout(Stdio::null()).stderr(Stdio::null());
+        }
+
         let output = git
             .arg("-C")
             .arg(p)
             .arg("commit")
             .arg("-am")
             .arg("'autocommit by ok'")
-            .stdout(Stdio::null())
             .status()
             .expect("commit should succeed");
         output.success()
     }
 
     /// Add everything in `filpath` git repo
-    pub fn add(filepath: &str) -> bool {
+    pub fn add(filepath: &str, verbose: bool) -> bool {
         use std::path::Path;
-        use std::process::Command;
+        use std::process::{Command, Stdio};
 
         let mut git = Command::new("git");
         let p = Path::new(filepath);
+
+        if verbose {
+            git.stdout(Stdio::inherit()).stderr(Stdio::inherit());
+        } else {
+            git.stdout(Stdio::null()).stderr(Stdio::null());
+        }
+
         let output = git
             .arg("-C")
             .arg(p)
@@ -143,12 +156,19 @@ pub mod git {
     }
 
     /// Push from `filepath` git repo
-    pub fn push(filepath: &str) -> bool {
+    pub fn push(filepath: &str, verbose: bool) -> bool {
         use std::path::Path;
-        use std::process::Command;
+        use std::process::{Command, Stdio};
 
         let mut git = Command::new("git");
         let p = Path::new(filepath);
+
+        if verbose {
+            git.stdout(Stdio::inherit()).stderr(Stdio::inherit());
+        } else {
+            git.stdout(Stdio::null()).stderr(Stdio::null());
+        }
+
         let output = git
             .arg("-C")
             .arg(p)
@@ -159,12 +179,19 @@ pub mod git {
     }
 
     /// Pull from `filepath` git repo
-    pub fn pull(filepath: &str) -> bool {
+    pub fn pull(filepath: &str, verbose: bool) -> bool {
         use std::path::Path;
-        use std::process::Command;
+        use std::process::{Command, Stdio};
 
         let mut git = Command::new("git");
         let p = Path::new(filepath);
+
+        if verbose {
+            git.stdout(Stdio::inherit()).stderr(Stdio::inherit());
+        } else {
+            git.stdout(Stdio::null()).stderr(Stdio::null());
+        }
+
         let output = git
             .arg("-C")
             .arg(p)

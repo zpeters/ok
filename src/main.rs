@@ -22,6 +22,7 @@ pub fn main() {
         .subcommand(
             SubCommand::with_name("go")
                 .about("commit and push all 'changed' repos")
+                .arg(Arg::with_name("verbose").short("v").help("Verbose"))
                 .arg(Arg::with_name("repo").multiple(true)),
         )
         .get_matches();
@@ -58,7 +59,7 @@ pub fn main() {
             for d in dirs {
                 let pathstring = d.path.into_os_string().into_string().unwrap();
                 println!("Processing {}", pathstring.bright_cyan().underline());
-                command::go(&pathstring)
+                command::go(&pathstring, go_matches.is_present("verbose"))
             }
         } else {
             let changed = command::list_changed(&repos);
@@ -68,7 +69,7 @@ pub fn main() {
                     for d in dirs {
                         let pathstring = d.path.into_os_string().into_string().unwrap();
                         println!("Processing {}", pathstring.bright_cyan().underline());
-                        command::go(&pathstring)
+                        command::go(&pathstring, go_matches.is_present("verbose"))
                     }
                 }
             }
