@@ -60,20 +60,18 @@ pub mod command {
             if let Ok(subdirs) = sublist {
                 for sub in subdirs {
                     let s = sub.unwrap();
-                    if s.file_type().unwrap().is_dir() {
-                        if is_git(&s.path().to_str().unwrap()) {
-                            if let Some(c) = changes(&s.path().to_str().unwrap()) {
-                                goodlist.push(GitRepo {
-                                    path: s.path(),
-                                    results: c,
-                                });
-                            }
+                    if s.file_type().unwrap().is_dir() && is_git(&s.path().to_str().unwrap()) {
+                        if let Some(c) = changes(&s.path().to_str().unwrap()) {
+                            goodlist.push(GitRepo {
+                                path: s.path(),
+                                results: c,
+                            });
                         }
                     }
                 }
             };
         }
-        if goodlist.len() == 0 {
+        if goodlist.is_empty() {
             None
         } else {
             Some(goodlist)
