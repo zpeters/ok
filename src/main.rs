@@ -28,7 +28,6 @@ pub fn main() {
         .get_matches();
 
     if matches.is_present("list") {
-        println!("[Repos with changes]");
         let changed = command::list_changed(&repos);
         match changed {
             None => println!("{}", "No changed repos".yellow()),
