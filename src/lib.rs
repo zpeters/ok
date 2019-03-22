@@ -40,9 +40,9 @@ pub mod command {
 
     fn check_status(msgtype: &str, status: bool) {
         if status {
-            println!("\t{}: {}", msgtype.bright_cyan(), "Success".green())
+            println!("{}: {}", msgtype.bright_cyan(), "Success".green())
         } else {
-            println!("\t{}: {}", msgtype.bright_cyan(), "Failure".red());
+            println!("{}: {}", msgtype.bright_cyan(), "Failure".red());
             panic!(format!("Can't continue {} command failed", msgtype))
         }
     }
@@ -275,35 +275,3 @@ pub mod git {
 
     }
 }
-
-// extern crate duct;
-// use duct::*;
-
-// fn main() {
-//     let r1 = quiet("8.8.8.8");
-//     println!("Quiet Good: {}", r1);
-//     let r2 = quiet("xxxxx");
-//     println!("Quiet Bad: {}", r2);
-
-//     let r3 = norm("8.8.8.8");
-//     println!("Norm Good: {}", r3);
-//     let r4 = norm("xxxxx");
-//     println!("Norm Bad: {}", r4)
-// }
-
-// fn quiet(host: &str) -> bool {
-//     let qp = cmd!("ping", "-c", "3", host).stderr_to_stdout().read();
-//     match qp {
-//         Ok(_) => return true,
-//         Err(_) => return false,
-//     }
-// }
-
-// fn norm(host: &str) -> bool {
-//     let args = &["-c", "3", host];
-//     let p = cmd("ping", args).run();
-//     match p {
-//         Ok(_) => return true,
-//         Err(_) => return false,
-//     }
-// }
