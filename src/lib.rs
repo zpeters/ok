@@ -1,11 +1,10 @@
 //! TODO
-//! - add verbose switch to turn on and off output (see commented exampel at the bottom using duct crate)
 //! - refactor list_changed
+//! - refactor git commands
 //! - refactor main ui
 //! - add more tests
 //! - better doc
 //! - test coverage
-//! - hardcode repos - fix list
 
 /// Higher level commands used by the UI
 pub mod command {
