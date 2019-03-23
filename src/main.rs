@@ -50,28 +50,31 @@ pub fn main() {
 
     if let Some(go_matches) = matches.subcommand_matches("go") {
         if let Some(r) = go_matches.value_of("repo") {
-            let changed = command::list_changed(&repos).unwrap();
-            let dirs: Vec<GitRepo> = changed
-                .into_iter()
-                .filter(|c| c.path.to_string_lossy().contains(r))
-                .collect();
-            for d in dirs {
-                let pathstring = d.path.into_os_string().into_string().unwrap();
-                println!("Processing {}", pathstring.bright_cyan().underline());
-                command::go(&pathstring, go_matches.is_present("verbose"))
+            let changed = command::list_changed(&repos);
+            match changed {
+                None => println!("{}", "No changed repos".yellow()),
+                Some(changed_dirs) => {
+                    let dirs: Vec<GitRepo> = changed_dirs
+                        .into_iter()
+                        .filter(|c| c.path.to_string_lossy().contains(r))
+                        .collect();
+                    go_dirs(dirs, go_matches.is_present("verbose"))
+                }
             }
         } else {
             let changed = command::list_changed(&repos);
             match changed {
                 None => println!("{}", "No changed repos".yellow()),
-                Some(dirs) => {
-                    for d in dirs {
-                        let pathstring = d.path.into_os_string().into_string().unwrap();
-                        println!("Processing {}", pathstring.bright_cyan().underline());
-                        command::go(&pathstring, go_matches.is_present("verbose"))
-                    }
-                }
+                Some(dirs) => go_dirs(dirs, go_matches.is_present("verbose")),
             }
         };
+    }
+}
+
+fn go_dirs(dirs: Vec<GitRepo>, verbose: bool) {
+    for d in dirs {
+        let pathstring = d.path.into_os_string().into_string().unwrap();
+        println!("Processing {}", pathstring.bright_cyan().underline());
+        command::go(&pathstring, verbose)
     }
 }
