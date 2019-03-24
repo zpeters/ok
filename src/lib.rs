@@ -1,7 +1,12 @@
 //! TODO
+//! - test pub fn go(path: &str, verbose: bool) {
+//! - test pub fn commit(filepath: &str, verbose: bool) -> bool {
+//! - test pub fn add(filepath: &str, verbose: bool) -> bool {
+//! - test main list
+//! - test main go
+//! - test main go *
 //! - refactor list_changed
 //! - refactor git commands
-//! - add more tests
 
 /// Higher level commands used by the UI
 pub mod command {
@@ -226,22 +231,22 @@ pub mod git {
 
         #[test]
         fn test_git_push_success() {
-            assert!(push("."));
+            assert!(push(".", false));
         }
 
         #[test]
         fn test_git_push_fail() {
-            assert_eq!(push("FAKE"), false);
+            assert_eq!(push("FAKE", false), false);
         }
 
         #[test]
         fn test_git_pull_success() {
-            assert!(pull("."));
+            assert!(pull(".", false));
         }
 
         #[test]
         fn test_git_pull_fail() {
-            assert_eq!(pull("FAKE"), false);
+            assert_eq!(pull("FAKE", false), false);
         }
 
         #[test]
