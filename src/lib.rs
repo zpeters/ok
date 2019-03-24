@@ -1,10 +1,7 @@
 //! TODO
 //! - refactor list_changed
 //! - refactor git commands
-//! - refactor main ui
 //! - add more tests
-//! - better doc
-//! - test coverage
 
 /// Higher level commands used by the UI
 pub mod command {
