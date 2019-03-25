@@ -7,6 +7,7 @@
 //! - test main go *
 //! - refactor list_changed
 //! - refactor git commands
+//! - switch to a git library ? https://docs.rs/git2/0.8.0/git2/
 
 /// Higher level commands used by the UI
 pub mod command {
