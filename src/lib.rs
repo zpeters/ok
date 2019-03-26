@@ -6,9 +6,10 @@
 //! - test main go
 //! - test main go *
 //! - refactor list_changed
-//! - refactor git commands
+//! - refactor git commands - look into using macros
 
 /// Higher level commands used by the UI
+
 pub mod command {
     extern crate colored;
     extern crate shellexpand;
@@ -40,13 +41,21 @@ pub mod command {
         check_status("Push", push_resp);
     }
 
-    fn check_status(msgtype: &str, status: bool) {
+    fn check_status(msg: &str, status: bool) {
         if status {
-            println!("{}: {}", msgtype.bright_cyan(), "Success".green())
+            print_success(msg);
         } else {
-            println!("{}: {}", msgtype.bright_cyan(), "Failure".red());
-            panic!(format!("Can't continue {} command failed", msgtype))
+            print_failure(msg);
+            panic!(format!("Can't continue {} command failed", msg))
         }
+    }
+    
+    fn print_success(msg: &str) {
+            println!("{}: {}", msg.bright_cyan(), "Success".green())
+    }
+
+    fn print_failure(msg: &str) {
+            println!("{}: {}", msg.bright_cyan(), "Failure".red());
     }
 
     /// List only git dirs that have 'changed'
