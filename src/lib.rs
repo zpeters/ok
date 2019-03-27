@@ -7,6 +7,9 @@
 //! - test main go
 //! - test main go *
 //! - refactor list_changed
+//! - get color working in windows
+//! https://github.com/mackwic/colored/issues/20
+//! https://github.com/mackwic/colored/issues/37
 
 /// Higher level commands used by the UI
 
