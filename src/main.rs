@@ -10,6 +10,8 @@ use clap::{App, AppSettings, Arg, SubCommand};
 use colored::*;
 
 pub fn main() {
+    colored::control::set_override(true);
+
     let repos = ["~/Projects/", "~/"];
 
     let matches = App::new("Ok")
