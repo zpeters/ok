@@ -49,13 +49,13 @@ pub mod command {
             panic!(format!("Can't continue {} command failed", msg))
         }
     }
-    
+
     fn print_success(msg: &str) {
-            println!("{}: {}", msg.bright_cyan(), "Success".green())
+        println!("{}: {}", msg.bright_cyan(), "Success".green())
     }
 
     fn print_failure(msg: &str) {
-            println!("{}: {}", msg.bright_cyan(), "Failure".red());
+        println!("{}: {}", msg.bright_cyan(), "Failure".red());
     }
 
     /// List only git dirs that have 'changed'
@@ -114,8 +114,7 @@ pub mod command {
 /// Lower level git commands
 pub mod git {
 
-    /// Commit everything in `filpath` git repo
-    pub fn commit(filepath: &str, verbose: bool) -> bool {
+    fn git_command(git_args: Vec<&str>, filepath: &str, verbose: bool) -> bool {
         use std::path::Path;
         use std::process::{Command, Stdio};
 
@@ -131,82 +130,34 @@ pub mod git {
         let output = git
             .arg("-C")
             .arg(p)
-            .arg("commit")
-            .arg("-am")
-            .arg("'autocommit by ok'")
+            .args(git_args)
             .status()
-            .expect("commit should succeed");
+            .expect("command should succeed");
         output.success()
+    }
+
+    /// Commit everything in `filpath` git repo
+    pub fn commit(filepath: &str, verbose: bool) -> bool {
+        let args = vec!["commit", "-am", "'autocommit by ok'"];
+        git_command(args, filepath, verbose)
     }
 
     /// Add everything in `filpath` git repo
     pub fn add(filepath: &str, verbose: bool) -> bool {
-        use std::path::Path;
-        use std::process::{Command, Stdio};
-
-        let mut git = Command::new("git");
-        let p = Path::new(filepath);
-
-        if verbose {
-            git.stdout(Stdio::inherit()).stderr(Stdio::inherit());
-        } else {
-            git.stdout(Stdio::null()).stderr(Stdio::null());
-        }
-
-        let output = git
-            .arg("-C")
-            .arg(p)
-            .arg("add")
-            .arg(".")
-            .status()
-            .expect("add should succeed");
-        output.success()
+        let args = vec!["add", "."];
+        git_command(args, filepath, verbose)
     }
 
     /// Push from `filepath` git repo
     pub fn push(filepath: &str, verbose: bool) -> bool {
-        use std::path::Path;
-        use std::process::{Command, Stdio};
-
-        let mut git = Command::new("git");
-        let p = Path::new(filepath);
-
-        if verbose {
-            git.stdout(Stdio::inherit()).stderr(Stdio::inherit());
-        } else {
-            git.stdout(Stdio::null()).stderr(Stdio::null());
-        }
-
-        let output = git
-            .arg("-C")
-            .arg(p)
-            .arg("push")
-            .status()
-            .expect("push should succeed");
-        output.success()
+        let args = vec!["push"];
+        git_command(args, filepath, verbose)
     }
 
     /// Pull from `filepath` git repo
     pub fn pull(filepath: &str, verbose: bool) -> bool {
-        use std::path::Path;
-        use std::process::{Command, Stdio};
-
-        let mut git = Command::new("git");
-        let p = Path::new(filepath);
-
-        if verbose {
-            git.stdout(Stdio::inherit()).stderr(Stdio::inherit());
-        } else {
-            git.stdout(Stdio::null()).stderr(Stdio::null());
-        }
-
-        let output = git
-            .arg("-C")
-            .arg(p)
-            .arg("pull")
-            .status()
-            .expect("pull should succeed");
-        output.success()
+        let args = vec!["pull"];
+        git_command(args, filepath, verbose)
     }
 
     /// Checks `git status` of the `filepath` repo and returns `true` if there is any output
