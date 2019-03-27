@@ -6,7 +6,6 @@
 //! - test main go
 //! - test main go *
 //! - refactor list_changed
-//! - refactor git commands - look into using macros
 
 /// Higher level commands used by the UI
 
