@@ -60,7 +60,11 @@ pub fn main() {
                         .into_iter()
                         .filter(|c| c.path.to_string_lossy().contains(r))
                         .collect();
-                    go_dirs(dirs, go_matches.is_present("verbose"))
+                    if dirs.is_empty() {
+                        println!("{} '{}'", "No changed repos matching".yellow(), r.yellow());
+                    } else {
+                        go_dirs(dirs, go_matches.is_present("verbose"))
+                    }
                 }
             }
         } else {

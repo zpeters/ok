@@ -1,5 +1,4 @@
 //! TODO
-//! - add a message if no match is found
 //! - test pub fn go(path: &str, verbose: bool) {
 //! - test pub fn commit(filepath: &str, verbose: bool) -> bool {
 //! - test pub fn add(filepath: &str, verbose: bool) -> bool {
