@@ -1,15 +1,3 @@
-//! TODO
-//! - test pub fn go(path: &str, verbose: bool) {
-//! - test pub fn commit(filepath: &str, verbose: bool) -> bool {
-//! - test pub fn add(filepath: &str, verbose: bool) -> bool {
-//! - test main list
-//! - test main go
-//! - test main go *
-//! - refactor list_changed
-//! - get color working in windows
-//! https://github.com/mackwic/colored/issues/20
-//! https://github.com/mackwic/colored/issues/37
-
 /// Higher level commands used by the UI
 
 pub mod command {
