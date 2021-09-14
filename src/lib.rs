@@ -36,7 +36,7 @@ pub mod command {
             print_success(msg);
         } else {
             print_failure(msg);
-            panic!(format!("Can't continue {} command failed", msg))
+            panic!("Can't continue {} command failed", msg)
         }
     }
 
