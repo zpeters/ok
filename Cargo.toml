@@ -7,5 +7,5 @@ edition = "2018"
 [dependencies]
 clap = "2.32.0" 
 failure = "0.1.5"
-shellexpand = "1.0.0"
-colored = "1.7.0"
+shellexpand = "2.1.0"
+colored = "2.0.0"
