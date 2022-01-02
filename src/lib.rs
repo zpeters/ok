@@ -222,6 +222,5 @@ pub mod git {
                 None => assert!(true),
             }
         }
-
     }
 }
