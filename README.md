@@ -1,5 +1,4 @@
 # TODO
-- create just file
+- update clap
 - review error handling (thiserror, eyre)
 - doc
-- clippy lint
