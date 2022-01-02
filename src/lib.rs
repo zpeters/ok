@@ -61,8 +61,8 @@ pub mod command {
             if let Ok(subdirs) = sublist {
                 for sub in subdirs {
                     let s = sub.unwrap();
-                    if s.file_type().unwrap().is_dir() && is_git(&s.path().to_str().unwrap()) {
-                        if let Some(c) = changes(&s.path().to_str().unwrap()) {
+                    if s.file_type().unwrap().is_dir() && is_git(s.path().to_str().unwrap()) {
+                        if let Some(c) = changes(s.path().to_str().unwrap()) {
                             goodlist.push(GitRepo {
                                 path: s.path(),
                                 results: c,
@@ -86,10 +86,7 @@ pub mod command {
         fn test_list_changed() {
             let paths = ["~/Projects/", "~/"];
             let result = list_changed(&paths);
-            match result {
-                None => assert!(true),
-                _ => assert!(true),
-            }
+            assert!(result.is_some());
         }
 
         #[test]
@@ -180,23 +177,13 @@ pub mod git {
         use super::*;
 
         #[test]
-        fn test_git_push_success() {
-            assert!(push(".", false));
-        }
-
-        #[test]
         fn test_git_push_fail() {
-            assert_eq!(push("FAKE", false), false);
-        }
-
-        #[test]
-        fn test_git_pull_success() {
-            assert!(pull(".", false));
+            assert!(!push("FAKE", false));
         }
 
         #[test]
         fn test_git_pull_fail() {
-            assert_eq!(pull("FAKE", false), false);
+            assert!(!pull("FAKE", false));
         }
 
         #[test]
@@ -206,7 +193,7 @@ pub mod git {
 
         #[test]
         fn test_is_not_git() {
-            assert_eq!(is_git("/tmp"), false);
+            assert!(!is_git("/tmp"));
         }
 
         #[test]
@@ -217,10 +204,7 @@ pub mod git {
         #[test]
         fn test_no_changes() {
             let resp = changes("/tmp");
-            match resp {
-                Some(_) => assert!(false, "should not have changes"),
-                None => assert!(true),
-            }
+            assert!(resp.is_none());
         }
     }
 }

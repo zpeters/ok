@@ -5,7 +5,7 @@ authors = ["Zach Peters <zpeters@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-clap = "2.32.0" 
+clap = { version="3.0.0", features= ["derive"]}
 failure = "0.1.5"
 shellexpand = "2.1.0"
 colored = "2.0.0"

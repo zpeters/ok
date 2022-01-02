@@ -6,7 +6,7 @@ extern crate ok;
 use ok::command;
 use ok::command::GitRepo;
 
-use clap::{App, AppSettings, Arg, SubCommand};
+use clap::{App, AppSettings, Arg};
 use colored::*;
 
 pub fn main() {
@@ -18,14 +18,13 @@ pub fn main() {
         .version("0.0.1")
         .author("Zach Peters")
         .about("Ok git helper")
-        .setting(AppSettings::ColoredHelp)
         .setting(AppSettings::ArgRequiredElseHelp)
-        .subcommand(SubCommand::with_name("list").about("lists all repos with 'changes'"))
+        .subcommand(App::new("list").about("lists all repos with 'changes'"))
         .subcommand(
-            SubCommand::with_name("go")
+            App::new("go")
                 .about("commit and push all 'changed' repos")
-                .arg(Arg::with_name("verbose").short("v").help("Verbose"))
-                .arg(Arg::with_name("repo").multiple(true)),
+                .arg(Arg::new("verbose").short('v').help("Verbose"))
+                .arg(Arg::new("repo").multiple_occurrences(true)),
         )
         .get_matches();
 
