@@ -23,8 +23,8 @@ pub fn main() {
         .subcommand(
             App::new("go")
                 .about("commit and push all 'changed' repos")
-                .arg(Arg::new("verbose").short('v').help("Verbose"))
-                .arg(Arg::new("repo").multiple_occurrences(true)),
+                .arg(Arg::with_name("verbose").short("v").help("Verbose"))
+                .arg(Arg::with_name("repo").multiple(true)),
         )
         .get_matches();
 
