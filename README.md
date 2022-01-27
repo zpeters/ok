@@ -1,3 +1,3 @@
 # TODO
-- review error handling (thiserror, eyre)
-- doc
+- updates for rust 2021
+- update to clap v3
