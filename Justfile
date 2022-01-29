@@ -1,9 +1,8 @@
 default: format clippy test build
-publish: format clippy-die test build-release copy-release
+release: format clippy-die test build-release copy-release
 
 alias b := build
-alias pub := publish
-alias r := build-release
+alias r := release
 
 build:
     cargo build
