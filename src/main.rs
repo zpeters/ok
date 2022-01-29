@@ -14,7 +14,7 @@ pub fn main() {
 
     let repos = ["~/Projects/", "~/"];
 
-    let matches = App::new("Ok")
+    let app_m = App::new("Ok")
         .version("0.0.1")
         .author("Zach Peters")
         .about("Ok git helper")
@@ -23,12 +23,14 @@ pub fn main() {
         .subcommand(
             App::new("go")
                 .about("commit and push all 'changed' repos")
-                .arg(Arg::with_name("verbose").short("v").help("Verbose"))
-                .arg(Arg::with_name("repo").multiple(true)),
+                .arg(Arg::new("verbose").short('v').help("Verbose"))
+                .arg(Arg::new("repo").multiple_occurrences(true)),
         )
         .get_matches();
 
-    if matches.is_present("list") {
+    // TODO refactor our matching to make it more streamlined
+    // https://docs.rs/clap/3.0.13/clap/struct.ArgMatches.html#method.subcommand_name
+    if app_m.subcommand_name() == Some("list") {
         let changed = command::list_changed(&repos);
         match changed {
             None => println!("{}", "No changed repos".yellow()),
@@ -49,7 +51,9 @@ pub fn main() {
         }
     }
 
-    if let Some(go_matches) = matches.subcommand_matches("go") {
+    // TODO refactor our matching to make it more streamlined
+    // https://docs.rs/clap/3.0.13/clap/struct.ArgMatches.html#method.subcommand_name
+    if let Some(go_matches) = app_m.subcommand_matches("go") {
         if let Some(r) = go_matches.value_of("repo") {
             let changed = command::list_changed(&repos);
             match changed {
